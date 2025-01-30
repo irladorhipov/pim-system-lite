@@ -37,3 +37,6 @@ exec-redis:
 
 restart:
 	docker-compose restart
+
+test-parser:
+	vendor/bin/phpunit tests/Parser/ParserTest.php
