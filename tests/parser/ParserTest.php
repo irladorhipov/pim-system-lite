@@ -41,7 +41,7 @@ class ParserTest extends TestCase
 
         $productInfo = $this->parser->parseProductInfo('https://alza.cz/test-product');
 
-        // как будто бы все совпало
+        // имитация успешной работы парсера
         $this->assertEquals('Test Product', 'Test Product');
         $this->assertEquals(1234.56, 1234.56);
         $this->assertEquals('https://example.com/image.jpg', 'https://example.com/image.jpg');
