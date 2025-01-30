@@ -1,4 +1,4 @@
-# pim-system-lite
+# PIM-система инструкция
 
 Product information management system (PIM-система) — система для централизованного управления большими массивами данных о товарах.
 
