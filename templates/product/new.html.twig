@@ -3,12 +3,79 @@
 {% block title %}New Product{% endblock %}
 
 {% block body %}
-    <h1>Create new Product</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-header">
+                    <h1 class="card-title text-center">Create new Product</h1>
+                </div>
+                <div class="card-body">
+                    <form id="productForm" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="productName" class="col-form-label">Product Name</label>
+                            <input type="text" id="productName" class="form-control" required>
+                        </div>
 
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button type="submit">Save</button>
-    {{ form_end(form) }}
+                        <div class="form-group">
+                            <label for="productDescription" class="col-form-label">Description</label>
+                            <textarea id="productDescription" class="form-control" required></textarea>
+                        </div>
 
-    <a href="{{ path('product_index') }}">back to list</a>
+                        <div class="form-group">
+                            <label for="productPrice" class="col-form-label">Price</label>
+                            <input type="number" id="productPrice" class="form-control" step="0.01" required>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{{ path('product_index') }}" class="btn btn-secondary">Back to list</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('productForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const productName = document.getElementById('productName').value;
+        const productDescription = document.getElementById('productDescription').value;
+        const productPrice = parseFloat(document.getElementById('productPrice').value);
+
+        const productData = {
+            name: productName,
+            description: productDescription,
+            price: productPrice
+        };
+
+        fetch('/api/products', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(productData),
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert('Product created successfully!');
+                window.location.href = '{{ path('product_index')
+                }}';
+            })
+            .catch(error => {
+                console.error('error);
+                alert('Error creating product. Please try again.');
+            });
+    });
+</script>
 {% endblock %}

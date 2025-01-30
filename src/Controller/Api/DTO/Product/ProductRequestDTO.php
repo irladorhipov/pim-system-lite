@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\DTO\Product;
+namespace App\Controller\Api\DTO\Product;
 
-use App\Controller\DTO\AbstractDTO;
+use App\Controller\Api\DTO\AbstractDTO;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Validator\Constraints as Assert;
 

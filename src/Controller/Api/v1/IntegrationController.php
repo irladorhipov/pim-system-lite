@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Api\v1;
 
-use App\Controller\DTO\Integration\ShopRequestDTO;
+use App\Controller\Api\DTO\Integration\ShopRequestDTO;
 use App\Service\ParserService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class IntegrationController extends AbstractController
 {
@@ -16,6 +17,8 @@ class IntegrationController extends AbstractController
     {
         $this->parserService = $parserService;
     }
+
+    #[Route('api/parser/product', name: 'product_show', methods: ['POST'])]
 
     public function getProductInfoByUrl(ShopRequestDTO $dto): JsonResponse
     {

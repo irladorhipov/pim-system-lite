@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Controller\DTO\Integration;
+namespace App\Controller\Api\DTO\Integration;
 
-use App\Controller\DTO\AbstractDTO;
-use Symfony\Component\HttpFoundation\Request;
+use App\Controller\Api\DTO\AbstractDTO;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class ShopRequestDTO extends AbstractDTO

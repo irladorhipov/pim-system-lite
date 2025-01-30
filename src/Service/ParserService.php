@@ -1,29 +1,42 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Service;
 
-use Symfony\Component\Panther\Client;
+use Symfony\Contracts\HttpClient\HttpClientInterface;
+use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 use Symfony\Component\DomCrawler\Crawler;
 
-class AlzaParserService
+class ParserService
 {
-    private $client;
+    private HttpClientInterface $client;
+
+    public function __construct(HttpClientInterface $client)
+    {
+        $this->client = $client;
+    }
 
     public function parseProductInfo(string $url): array
     {
-        $client = Client::createSeleniumClient('http://localhost:4444/wd/hub/session');
-        $crawler = $client->request('GET', $url);
-        $title = $crawler->filter('h1')->text();
+        try {
+            $response = $this->client->request('GET', $url);
 
-        $price = $crawler->filter('span.price-box__price')->text();
-        $price = preg_replace('/[^0-9]/', '', $price);
+            $htmlContent = $response->getContent();
 
-        $image = $crawler->filter('img.gallery__image')->attr('src');
+            $crawler = new Crawler($htmlContent);
 
-        return [
-            'title' => $title,
-            'price' => (int)$price,
-            'image' => $image,
-        ];
+            $name = $crawler->filter('h1.product-title')->text();
+            $price = $crawler->filter('.price')->text();
+            $imageUrl = $crawler->filter('.product-image img')->attr('src');
+
+            return [
+                'name' => trim($name),
+                'price' => (float) preg_replace('/[^\d.]/', '', $price),
+                'photo' => $imageUrl,
+            ];
+        } catch (TransportExceptionInterface $e) {
+            throw new \Exception('Failed to fetch product information: ' . $e->getMessage());
+        }
     }
 }
