@@ -15,7 +15,7 @@ class Product
     #[ORM\GeneratedValue]
     #[ORM\Column]
     #[Groups(['product_list'])]
-    private ?int $id = null;
+    private int $id;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['product_list'])]
@@ -33,7 +33,7 @@ class Product
     #[Groups(['product_list'])]
     private ?string $description = null;
 
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

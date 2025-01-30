@@ -29,7 +29,13 @@ class ProductRequestDTO extends AbstractDTO
     {
         $this->setName($params['name'] ?? '');
         $this->setPrice(array_key_exists('price', $params)  ? (int)$params['price'] : 0);
-        $this->setPhoto($this->getRequest()->files->get('photo'));
+
+        $file = $this->getRequest()->files->get('photo');
+
+        if ($file instanceof File) {
+            $this->setPhoto($file);
+        }
+
         $this->setDescription($params['description'] ?? '');
 
         $this->validate();
