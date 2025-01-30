@@ -27,11 +27,10 @@ class ProductRequestDTO extends AbstractDTO
 
     public function processRequest(array $params = []): void
     {
-        $this->name = $params['name'] ?? '';
-        $this->price = array_key_exists('price', $params)  ? (int)$params['price'] : 0;
-        $this->photo = $this->getRequest()->files->get('photo') ?? null;
-        $this->description = $params['description'] ?? '';
-
+        $this->setName($params['name'] ?? '');
+        $this->setPrice(array_key_exists('price', $params)  ? (int)$params['price'] : 0);
+        $this->setPhoto($this->getRequest()->files->get('photo'));
+        $this->setDescription($params['description'] ?? '');
 
         $this->validate();
     }
@@ -41,9 +40,23 @@ class ProductRequestDTO extends AbstractDTO
         return $this->name;
     }
 
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
     public function getPrice(): int
     {
         return $this->price;
+    }
+
+    public function setPrice(int $price): static
+    {
+        $this->price = $price;
+
+        return $this;
     }
 
     public function getPhoto(): ?File
@@ -51,13 +64,27 @@ class ProductRequestDTO extends AbstractDTO
         return $this->photo;
     }
 
-    public function getDescription(): string
+    public function setPhoto(File $file): static
     {
-        return $this->description;
+        $this->photo = $file;
+
+        return $this;
     }
 
     public function hasPhoto(): bool
     {
         return null !== $this->photo;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
+
+        return $this;
     }
 }
