@@ -13,7 +13,7 @@ Product information management system (PIM-система) — система д
 make up
 ```
 
-## Выполнение миграций в Symfony
+## Выполнение миграций
 
 Чтобы выполнить миграции в Symfony, используйте следующую команду:
 
